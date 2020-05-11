@@ -6,21 +6,31 @@
   "scripts": {
     "start": "nodemon ",
     "dev": "nodemon --inspect",
-    "pretest": "NODE_ENV=test sequelize db:migrate",
-    "test": "NODE_ENV=test jest",
-    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all"
+    "preintegration": "NODE_ENV=test sequelize db:migrate",
+    "integration": "NODE_ENV=test jest",
+    "postintegration": "NODE_ENV=test sequelize db:migrate:undo:all",
+    "test": "nyc mocha ./__tests__/unit/*.unit.js --timeout 12000",
+    "covarage": "nyc --reporter=html --reporter=text yarn test"
   },
+
+  "nyc": {
+    "include": "src/app",
+    "exclude": [
+      "**/*model"
+    ]
+  },
+
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "pg": "^8.1.0",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.7",
-    "sinon": "^9.0.2",
     "yup": "^0.28.5"
   },
   "devDependencies": {
     "@types/jest": "^25.2.1",
+    "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.10.0",
@@ -29,9 +39,12 @@
     "factory-girl": "^5.0.4",
     "faker": "^4.1.0",
     "jest": "^26.0.1",
+    "mocha": "^7.1.2",
     "nodemon": "^2.0.2",
+    "nyc": "^15.0.1",
     "prettier": "^1.19.1",
     "sequelize-cli": "^5.5.1",
+    "sinon": "^9.0.2",
     "sqlite3": "^4.2.0",
     "supertest": "^4.0.2"
   }

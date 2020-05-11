@@ -1,11 +1,14 @@
-const datadabe = require('../../src/database')
+const database = require('../../src/database/index')
 
-module.exports = () => {
+module.exports = function truncate () {
   return Promise.all(
-    Object.keys(datadabe.connection.models).map(key => {
-      return datadabe. connection.models[key].destroy({ truncate: true, force:true})
-    })
-  )
+    Object.keys(database.connection.models).map(key => {
+      return database.connection.models[key].destroy({
+        truncate: true,
+        force: true,
+      });
+    }),
+  );
 }
 
 
