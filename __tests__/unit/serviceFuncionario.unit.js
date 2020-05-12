@@ -1,5 +1,6 @@
 const { assert, expect } = require('chai');
 const service = require('../../src/app/service/tonFuncionariosService');
+const logsService = require('../../src/app/service/logsService');
 const repository = require('../../src/app/repository/tonFuncionariosRepository');
 const sinon = require('sinon');
 

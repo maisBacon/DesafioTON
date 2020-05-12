@@ -1,5 +1,5 @@
 const { assert, expect } = require('chai');
-const repository = require('../../src/app/repository/tonFuncionariosRepository')
+const repository = require('../../src/app/repository/tonFuncionariosRepository');
 const model = require('../../src/app/models/tonFuncionarios')
 const sinon = require('sinon');
 
