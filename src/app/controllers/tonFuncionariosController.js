@@ -106,7 +106,7 @@ class TonFuncionariosController {
     const { id } = req.params;
     const { nome, idade, cargo } = req.body;
     try {
-      logger.info(action, 'call service method');
+      logger(action, 'call service method');
       const response = await tonFuncionariosService.update(
         id,
         nome,
@@ -114,7 +114,6 @@ class TonFuncionariosController {
         cargo,
       );
       if (!response) {
-        logger.info(action, constants.error.notFound);
         const error = await customError.throw(
           'Funcionario não encontrado',
           constants.error.notFound,
