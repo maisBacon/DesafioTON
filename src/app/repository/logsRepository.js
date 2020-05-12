@@ -1,4 +1,5 @@
 const logsModel = require('../models/logs');
+const logger = require('../util/logger');
 
 class LogsRepository {
   async createLog({
@@ -10,6 +11,7 @@ class LogsRepository {
     response,
     id_ton_funcionario,
   }) {
+    logger(action, 'write logs on database');
     return await logsModel.create({
       action,
       error,
