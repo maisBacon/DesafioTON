@@ -1,4 +1,5 @@
 const logsRepository = require('../repository/logsRepository');
+const logger = require('../util/logger');
 
 class LogsService {
   async createLog(
@@ -10,6 +11,7 @@ class LogsService {
     response,
     id_ton_funcionario,
   ) {
+    logger(action, 'calling logs repository');
     await logsRepository.createLog({
       action,
       error,

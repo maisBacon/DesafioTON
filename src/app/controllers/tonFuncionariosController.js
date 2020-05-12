@@ -3,11 +3,13 @@ const tonFuncionariosService = require('../service/tonFuncionariosService');
 const logsService = require('../service/logsService');
 const customError = require('../../config/customErros');
 const constants = require('../util/constants');
+const logger = require('../util/logger');
 
 class TonFuncionariosController {
   async index(req, res, next) {
     const action = constants.action.index;
     try {
+      logger(action, 'call service method');
       const response = await tonFuncionariosService.index();
       if (!response) {
         const error = await customError.throw(
@@ -18,9 +20,11 @@ class TonFuncionariosController {
         return res.status(404).json(error);
       }
       await logsService.createLog(action, false);
+      logger(action, 'get list employee');
       res.status(200).json(response);
       return next();
     } catch (erro) {
+      logger(action, 'catch error', erro.message);
       await customError.throw(
         erro.message,
         constants.error.genericError,
@@ -32,7 +36,6 @@ class TonFuncionariosController {
 
   async store(req, res, next) {
     const action = constants.action.store;
-
     const schema = yup.object().shape({
       nome: yup.string().required(),
       idade: yup.number().required(),
@@ -51,6 +54,7 @@ class TonFuncionariosController {
     const { nome, idade, cargo } = req.body;
 
     try {
+      logger(action, 'call service method');
       const response = await tonFuncionariosService.store(nome, idade, cargo);
       await logsService.createLog(
         action,
@@ -61,8 +65,10 @@ class TonFuncionariosController {
         JSON.stringify(response),
         response.id,
       );
+      logger(action, 'create employee');
       return res.status(201).json({ message: 'funcionário cadastrado' });
     } catch (erro) {
+      logger(action, 'catch error', erro.message);
       customError.throw(
         erro.message,
         constants.error.genericError,
@@ -100,6 +106,7 @@ class TonFuncionariosController {
     const { id } = req.params;
     const { nome, idade, cargo } = req.body;
     try {
+      logger.info(action, 'call service method');
       const response = await tonFuncionariosService.update(
         id,
         nome,
@@ -107,6 +114,7 @@ class TonFuncionariosController {
         cargo,
       );
       if (!response) {
+        logger.info(action, constants.error.notFound);
         const error = await customError.throw(
           'Funcionario não encontrado',
           constants.error.notFound,
@@ -127,8 +135,10 @@ class TonFuncionariosController {
         JSON.stringify(response),
         id,
       );
+      logger(action, 'update data employee');
       return res.status(200).json({ message: 'dados atualizados' });
     } catch (erro) {
+      logger(action, 'catch error', erro.message);
       customError.throw(
         erro.message,
         constants.error.genericError,
@@ -157,6 +167,7 @@ class TonFuncionariosController {
     }
     const { id } = req.params;
     try {
+      logger(action, 'call service method');
       const response = await tonFuncionariosService.delete(id);
       if (!response) {
         const error = await customError.throw(
@@ -179,8 +190,10 @@ class TonFuncionariosController {
         JSON.stringify(response),
         id,
       );
+      logger(action, 'delete employee');
       return res.status(200).json({ message: 'funcionário excluido' });
     } catch (erro) {
+      logger(action, 'catch error', erro.message);
       customError.throw(
         erro.message,
         constants.error.genericError,

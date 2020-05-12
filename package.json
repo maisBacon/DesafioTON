@@ -9,17 +9,14 @@
     "preintegration": "NODE_ENV=test sequelize db:migrate",
     "integration": "NODE_ENV=test jest",
     "postintegration": "NODE_ENV=test sequelize db:migrate:undo:all",
-    "test": "nyc mocha ./__tests__/unit/*.unit.js --timeout 12000",
-    "covarage": "nyc --reporter=html --reporter=text yarn test"
+    "test": "nyc --reporter=html --reporter=text mocha ./__tests__/unit/*.unit.js --timeout 12000"
   },
-
   "nyc": {
     "include": "src/app",
     "exclude": [
-      "**/*model"
+      "**/*models"
     ]
   },
-
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

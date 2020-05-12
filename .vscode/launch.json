@@ -12,5 +12,6 @@
       "protocol": "inspector",
       "skipFiles": ["<node_internals>/**"]
     }
-  ]
+  ],
+
 }

@@ -1,13 +1,23 @@
 const { assert, expect } = require('chai');
-const Controller = require('../../src/app/controllers/tonFuncionariosController')
+const service = require('../../src/app/service/tonFuncionariosService');
+const controller = require('../../src/app/controllers/tonFuncionariosController');
 const sinon = require('sinon');
 
-describe('App', () => {
-  // const sandbox = sinon.sandbox.create()
+describe('Controller', () => {
+  const sandbox = sinon.createSandbox();
 
-  it('teste', async () => {
-    sinon.stub(Controller, 'index').returns(Promise.resolve('ok'));
-    const res = await Controller.index('ok');
-    assert.deepEqual(res, 'ok');
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it('Index - async index(req, res, next)', async () => {
+    sandbox.stub(service, 'index').returns(Promise.resolve([{ id: 1, nome: 'Renan', idade: 29, cargo: 'Desenvolvedor' }]));
+    const req = {}
+    const res = {
+      send:(code,response) => {
+        expect(code).to.be.equal(200)
+      }
+    }
+    controller.index(req, res, sinon.spy());
   });
 });
